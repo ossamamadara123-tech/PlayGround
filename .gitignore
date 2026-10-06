@@ -1,0 +1,23 @@
+
+screenshots/
+
+*.log
+
+*.pid
+
+.agents/
+
+.agentsweb/
+
+.omgithub-runtime/
+
+.opencode-ssh/
+
+.opencode-web/
+
+node_modules/
+
+# ملفات تشغيل البوت (تُنشأ تلقائياً — لا تُرفع)
+signal_store.json
+signals_latest.json
+bot_state.json

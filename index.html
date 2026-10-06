@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صفقات AI | منصة تحليل العملات الذكية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070b16; --bg2:#0d1426; --card:#121c33; --card2:#182542;
+  --border:rgba(255,255,255,.08); --txt:#eef2ff; --muted:#93a0bd;
+  --green:#00e68a; --red:#ff4d6d; --gold:#ffbf3f; --blue:#3fa9ff; --purple:#a06bff;
+  --grad:linear-gradient(135deg,#00e68a,#3fa9ff 55%,#a06bff);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:radial-gradient(1200px 500px at 80% -10%,rgba(63,169,255,.18),transparent),radial-gradient(900px 400px at 10% 0%,rgba(0,230,138,.12),transparent),var(--bg);color:var(--txt);min-height:100vh}
+a{color:inherit}
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);background:rgba(7,11,22,.82);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1280px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px}
+.logo-mark{width:42px;height:42px;border-radius:14px;background:var(--grad);display:grid;place-items:center;font-size:22px;box-shadow:0 6px 24px rgba(63,169,255,.4)}
+.logo small{display:block;font-size:11px;color:var(--muted);font-weight:600}
+.live{display:flex;align-items:center;gap:7px;background:rgba(0,230,138,.1);border:1px solid rgba(0,230,138,.3);color:var(--green);padding:6px 12px;border-radius:100px;font-size:13px;font-weight:700}
+.live i{width:9px;height:9px;border-radius:50%;background:var(--green);animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.3}}
+.spacer{flex:1}
+.btn{border:none;cursor:pointer;font-family:inherit;font-weight:800;border-radius:12px;padding:11px 18px;font-size:14px;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--grad);color:#06121f;box-shadow:0 6px 20px rgba(0,230,138,.25)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,.06);color:var(--txt);border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.wrap{max-width:1280px;margin:auto;padding:18px}
+.ticker{overflow:hidden;white-space:nowrap;border:1px solid var(--border);background:rgba(255,255,255,.03);border-radius:14px;padding:10px 0;margin-bottom:16px}
+.ticker-track{display:inline-block;animation:scroll 40s linear infinite;font-size:14px;font-weight:700}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(50%)}}
+.tk{display:inline-block;margin:0 18px}.tk b{margin:0 5px}.up{color:var(--green)}.down{color:var(--red)}
+.hero{background:linear-gradient(135deg,rgba(0,230,138,.12),rgba(63,169,255,.1) 50%,rgba(160,107,255,.12));border:1px solid var(--border);border-radius:20px;padding:22px;display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-bottom:16px}
+@media(max-width:860px){.hero{grid-template-columns:1fr}}
+.hero h1{font-size:26px;font-weight:900;line-height:1.5}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:14px;margin:8px 0 14px;line-height:1.9}
+.hero-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{background:rgba(255,255,255,.06);border:1px solid var(--border);padding:6px 12px;border-radius:100px;font-size:12px;font-weight:700;color:var(--muted)}
+.ai-box{background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:16px;padding:16px;font-size:14px;line-height:2}
+.ai-box h3{font-size:14px;color:var(--gold);margin-bottom:6px}
+.typing::after{content:'▊';animation:blink 1s infinite;color:var(--green)}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px}
+.stat small{color:var(--muted);font-size:12px;font-weight:700}
+.stat b{display:block;font-size:19px;margin-top:4px}
+.stat span{font-size:12px;font-weight:700}
+.controls{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.controls input,.controls select{background:#0a1122;border:1px solid var(--border);color:var(--txt);border-radius:11px;padding:10px 13px;font-family:inherit;font-size:14px;font-weight:700;outline:none}
+.controls input{min-width:200px;flex:1}
+.controls input:focus,.controls select:focus{border-color:var(--blue)}
+.section-title{display:flex;align-items:center;gap:10px;margin:20px 4px 12px;font-size:18px;font-weight:900}
+.section-title .bar{width:6px;height:24px;border-radius:6px;background:var(--grad)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:1020px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:18px;padding:16px;position:relative;overflow:hidden;transition:.2s}
+.card:hover{transform:translateY(-3px);border-color:rgba(63,169,255,.4);box-shadow:0 12px 34px rgba(0,0,0,.4)}
+.card.hot{border-color:rgba(255,191,63,.5)}
+.card.hot::before{content:'🔥 فرصة صعود';position:absolute;top:12px;left:12px;background:linear-gradient(135deg,#ffbf3f,#ff7a3f);color:#231200;font-size:11px;font-weight:900;padding:4px 10px;border-radius:100px}
+.coin-head{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.coin-head img{width:44px;height:44px;border-radius:50%;background:#fff}
+.coin-head h3{font-size:16px}.coin-head small{color:var(--muted);font-size:12px;font-weight:700}
+.fav{margin-right:auto;background:none;border:none;font-size:20px;cursor:pointer;filter:grayscale(1);opacity:.5}
+.fav.on{filter:none;opacity:1}
+.price-row{display:flex;align-items:end;justify-content:space-between;margin:6px 0}
+.price{font-size:21px;font-weight:900}
+.chg{font-size:13px;font-weight:800;padding:4px 10px;border-radius:100px}
+.chg.up{background:rgba(0,230,138,.12);color:var(--green)}
+.chg.down{background:rgba(255,77,109,.12);color:var(--red)}
+canvas.spark{width:100%;height:64px;background:rgba(0,0,0,.25);border-radius:12px;margin:8px 0}
+.signal{display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:13px;padding:10px 12px;margin:8px 0}
+.sig-badge{font-weight:900;font-size:14px;padding:6px 14px;border-radius:100px}
+.s-buy-strong{background:rgba(0,230,138,.2);color:var(--green);border:1px solid var(--green);animation:blink 1.6s infinite}
+.s-buy{background:rgba(0,230,138,.12);color:var(--green)}
+.s-neutral{background:rgba(255,255,255,.08);color:var(--muted)}
+.s-sell{background:rgba(255,77,109,.12);color:var(--red)}
+.s-sell-strong{background:rgba(255,77,109,.2);color:var(--red);border:1px solid var(--red)}
+.score-circle{width:56px;height:56px;flex-shrink:0}
+.meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0;font-size:12px}
+.meta div{background:rgba(255,255,255,.04);border-radius:10px;padding:7px;text-align:center}
+.meta small{display:block;color:var(--muted);font-weight:700}.meta b{font-size:13px}
+.pct{display:inline-block;font-size:11px;font-weight:900;padding:1px 8px;border-radius:100px;margin-top:3px}
+.pct-profit{background:rgba(0,230,138,.14);color:var(--green)}
+.pct-loss{background:rgba(255,77,109,.14);color:var(--red)}
+.hitbar{display:flex;gap:6px;margin:8px 0}
+.hit{flex:1;text-align:center;font-size:12px;font-weight:900;padding:7px 6px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--muted)}
+.hit.done{background:rgba(0,230,138,.15);border-color:var(--green);color:var(--green)}
+.hit.wait{background:rgba(255,191,63,.08);border-color:rgba(255,191,63,.4);color:var(--gold)}
+.hit.stopped{background:rgba(255,77,109,.15);border-color:var(--red);color:var(--red)}
+.status-line{font-size:13px;font-weight:900;text-align:center;padding:8px;border-radius:11px;margin:6px 0}
+.status-done{background:rgba(0,230,138,.13);color:var(--green);border:1px solid rgba(0,230,138,.4)}
+.status-wait{background:rgba(255,191,63,.1);color:var(--gold);border:1px solid rgba(255,191,63,.35)}
+.status-stop{background:rgba(255,77,109,.12);color:var(--red);border:1px solid rgba(255,77,109,.4)}
+.reasons{font-size:12.5px;color:#c8d2e8;line-height:1.9;background:rgba(63,169,255,.06);border-radius:11px;padding:9px 11px;margin:8px 0;min-height:64px}
+.card-actions{display:flex;gap:8px;margin-top:8px}
+.card-actions .btn{flex:1;justify-content:center;padding:9px;font-size:13px}
+.mcap{font-size:11.5px;color:var(--muted);font-weight:700;margin-top:6px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;place-items:center;z-index:100;padding:16px}
+.modal-bg.open{display:grid}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;max-width:560px;width:100%;padding:22px;max-height:90vh;overflow:auto}
+.modal h2{font-size:20px;margin-bottom:4px}
+.kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--border);font-size:14px}
+.kv b{font-weight:800}
+.empty{text-align:center;color:var(--muted);padding:40px;border:1px dashed var(--border);border-radius:16px}
+.footer{text-align:center;color:var(--muted);font-size:12.5px;padding:26px;line-height:2}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0f1a30;border:1px solid var(--blue);padding:11px 20px;border-radius:100px;font-weight:800;font-size:14px;display:none;z-index:200}
+.loader{text-align:center;padding:40px;color:var(--muted)}
+.spin{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--green);border-radius:50%;margin:auto;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-inner">
+  <div class="logo"><div class="logo-mark">📈</div><div>صفقات AI<small>منصة تحليل العملات الذكية</small></div></div>
+  <div class="live"><i></i><span id="liveTxt">مباشر</span></div>
+  <div class="spacer"></div>
+  <button class="btn btn-ghost" onclick="toggleFavs()">⭐ المفضلة (<span id="favCount">0</span>)</button>
+  <button class="btn btn-primary" onclick="loadMarket(true)">⚡ توليد صفقات AI</button>
+</div></div>
+
+<div class="wrap">
+  <div class="ticker"><div class="ticker-track" id="ticker">جاري تحميل الأسعار...</div></div>
+
+  <div class="hero">
+    <div>
+      <h1>ذكاء اصطناعي يحلل <span>السوق والقيمة السوقية</span> لجميع العملات ويعطيك قرار: شراء أم بيع؟</h1>
+      <p>نفحص الزخم، السيولة، القيمة السوقية، RSI، الاتجاه، والتقلب — ثم نولّد صفقات جاهزة: سعر الدخول + هدفين + وقف خسارة + نسبة فرصة الصعود.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="loadMarket(true)">🔍 حلّل السوق الآن</button>
+        <button class="btn btn-ghost" onclick="exportTop()">🖼️ تصدير أقوى صفقة كصورة</button>
+      </div>
+      <div class="hero-badges">
+        <div class="chip">✅ أسعار حية CoinGecko</div>
+        <div class="chip">🧠 محرك AI محلي</div>
+        <div class="chip">🖼️ بطاقات قابلة للمشاركة</div>
+        <div class="chip">📱 يعمل كتطبيق</div>
+      </div>
+    </div>
+    <div class="ai-box">
+      <h3>🤖 ملخص المحلل الذكي</h3>
+      <div id="aiSummary" class="typing">بانتظار تحليل السوق...</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><small>💰 القيمة السوقية الإجمالية</small><b id="stMcap">—</b><span id="stMcapChg"></span></div>
+    <div class="stat"><small>📊 حجم التداول 24س</small><b id="stVol">—</b><span></span></div>
+    <div class="stat"><small>👑 هيمنة البيتكوين</small><b id="stBtc">—</b><span></span></div>
+    <div class="stat"><small>🪙 عملات محللة</small><b id="stCount">—</b><span style="color:var(--green)">فحص شامل</span></div>
+    <div class="stat"><small>🔥 فرص شراء الآن</small><b id="stBuy">—</b><span style="color:var(--gold)">محدث لحظياً</span></div>
+  </div>
+
+  <div class="controls">
+    <input id="q" placeholder="🔎 ابحث عن عملة... (btc, eth, sol)" oninput="render()">
+    <select id="fSig" onchange="render()">
+      <option value="all">كل الإشارات</option>
+      <option value="buy">🟢 شراء فقط</option>
+      <option value="sell">🔴 بيع فقط</option>
+      <option value="fav">⭐ المفضلة</option>
+    </select>
+    <select id="fSort" onchange="render()">
+      <option value="score">الترتيب: قوة الفرصة</option>
+      <option value="mcap">الترتيب: القيمة السوقية</option>
+      <option value="chg">الترتيب: تغير 24س</option>
+      <option value="vol">الترتيب: حجم التداول</option>
+    </select>
+    <button class="btn btn-ghost" onclick="loadMarket()">🔄 تحديث الأسعار</button>
+  </div>
+
+  <div class="section-title"><div class="bar"></div>🔥 أقوى فرص الصعود الآن</div>
+  <div class="grid" id="topGrid"></div>
+
+  <div class="section-title"><div class="bar"></div>🪙 تحليل جميع العملات <span id="cnt" style="font-size:12px;color:var(--muted)"></span></div>
+  <div id="main"><div class="loader"><div class="spin"></div><br>جاري جلب السوق وتحليل العملات...</div></div>
+</div>
+
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)this.classList.remove('open')"><div class="modal" id="modalBody"></div></div>
+<div class="toast" id="toast"></div>
+<div class="footer">⚠️ تنبيه: هذا التحليل آلي لأغراض تعليمية وليس توصية استثمارية. تداول العملات الرقمية عالي المخاطر.<br>الأسعار من CoinGecko • تُحدث كل 60 ثانية • صُنع بـ ❤️ لمتداولي العرب</div>
+
+<script>
+let COINS=[], ANALYSIS={}, FAVS=new Set(JSON.parse(localStorage.getItem('sf_favs')||'[]'));
+let showFavOnly=false;
+const $=id=>document.getElementById(id);
+const fmt$=n=>n==null?'—':'$'+Number(n).toLocaleString('en-US',{maximumFractionDigits:n<1?4:n<100?2:0});
+const fmtBig=n=>{if(n==null)return'—';if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';return'$'+n.toLocaleString()};
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
+
+// ---------- التتبع الحي الحقيقي 📡 ----------
+// التوصية تُجمّد لحظة صدورها (الدخول + الوقت) ولا يُحتسب الهدف مضروباً
+// إلا إذا لمسه السعر الحي فعلياً بعد الصدور — لا نستخدم بيانات الماضي أبداً.
+let LIVE={};
+const STORE_KEY='sf_live_signals_v1', MAX_AGE_MS=24*3600*1000;
+function loadStore(){try{return JSON.parse(localStorage.getItem(STORE_KEY)||'{}')}catch(e){return{}}}
+function saveStore(s){try{localStorage.setItem(STORE_KEY,JSON.stringify(s))}catch(e){}}
+function dirOf(sig){return(sig==='sell'||sig==='sell-strong')?'sell':'buy'}
+function trackLive(){
+  const store=loadStore(), now=Date.now(); LIVE={};
+  for(const c of COINS){
+    const a=ANALYSIS[c.id]; if(!a)continue;
+    const live=c.current_price||0, dir=dirOf(a.sig);
+    let s=store[c.id];
+    if(!s||s.dir!==dir||!s.entry||(now-s.createdTs)>MAX_AGE_MS){
+      s={dir,entry:live,
+        tp1:live*(1+((dir==='buy')?a.atrPct:-a.atrPct*0.7)/100),
+        tp2:live*(1+((dir==='buy')?a.atrPct*1.9:-a.atrPct*1.4)/100),
+        sl:live*(1+((dir==='buy')?-a.atrPct*0.8:a.atrPct*0.8)/100),
+        createdTs:now,createdAt:new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'}),
+        hit1At:'',hit2At:'',slAt:''};
+      if(live){s.profit1=Math.abs((s.tp1-live)/live*100);s.profit2=Math.abs((s.tp2-live)/live*100);s.lossPct=Math.abs((s.sl-live)/live*100);}
+      store[c.id]=s;
+    }
+    s.live=live;
+    if(s.entry&&live){
+      const raw=(live-s.entry)/s.entry*100; s.pnl=s.dir==='sell'?-raw:raw;
+      const stamp=new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});
+      if(s.dir==='buy'){if(!s.hit1At&&live>=s.tp1)s.hit1At=stamp; if(!s.hit2At&&live>=s.tp2)s.hit2At=stamp; if(!s.hit1At&&!s.hit2At&&!s.slAt&&live<=s.sl)s.slAt=stamp;}
+      else{if(!s.hit1At&&live<=s.tp1)s.hit1At=stamp; if(!s.hit2At&&live<=s.tp2)s.hit2At=stamp; if(!s.hit1At&&!s.hit2At&&!s.slAt&&live>=s.sl)s.slAt=stamp;}
+    } else s.pnl=0;
+    s.ageMin=Math.max(0,Math.round((now-s.createdTs)/60000));
+    if(s.hit2At){s.status=`تم ضرب الهدفين ✅✅ — ${s.hit2At}`;s.statusCls='status-done';}
+    else if(s.hit1At){s.status=`تم ضرب الهدف الأول ✅ (${s.hit1At}) — بانتظار الثاني`;s.statusCls='status-done';}
+    else if(s.slAt){s.status=`ضرب وقف الخسارة 🛑 (${s.slAt})`;s.statusCls='status-stop';}
+    else{s.status=`📡 تتبع حي منذ ${s.ageMin} د — لم يُلمس هدف بعد`;s.statusCls='status-wait';}
+    LIVE[c.id]=s;
+  }
+  saveStore(store);
+  window.REAL_HITS=Object.values(LIVE).filter(s=>s.hit1At).length;
+}
+
+// ---------- AI ENGINE ----------
+function ema(arr,p){const k=2/(p+1);let e=arr[0];for(let i=1;i<arr.length;i++)e=arr[i]*k+e*(1-k);return e}
+function rsi(prices,period=14){if(prices.length<period+1)return 50;let g=0,l=0;for(let i=prices.length-period;i<prices.length;i++){const d=prices[i]-prices[i-1];if(d>0)g+=d;else l-=d}if(l===0)return 100;const rs=g/l;return 100-100/(1+rs)}
+function stdev(a){const m=a.reduce((s,v)=>s+v,0)/a.length;return Math.sqrt(a.reduce((s,v)=>s+(v-m)**2,0)/a.length)}
+
+function analyze(c){
+  const sp=c.sparkline_in_7d?.price||[];
+  const ch1=c.price_change_percentage_1h_in_currency||0;
+  const ch24=c.price_change_percentage_24h||0;
+  const ch7=c.price_change_percentage_7d_in_currency||0;
+  const price=c.current_price||0;
+  let score=50, reasons=[];
+  // 1) الزخم
+  const mom=ch1*0.25+ch24*0.55+ch7*0.2;
+  score+=Math.max(-18,Math.min(18,mom*2.2));
+  if(ch24>3)reasons.push(`✅ زخم صعودي قوي +${ch24.toFixed(1)}% خلال 24 ساعة`);
+  else if(ch24<-3)reasons.push(`🔻 ضغط بيعي ${ch24.toFixed(1)}% خلال 24 ساعة`);
+  else reasons.push(`➖ حركة متوازنة ${ch24>=0?'+':''}${ch24.toFixed(1)}% (24س)`);
+  // 2) الاتجاه EMA
+  let trend='neutral';
+  if(sp.length>30){
+    const e12=ema(sp.slice(-30),12), e26=ema(sp.slice(-30),26);
+    if(e12>e26*1.002){score+=9;trend='up';reasons.push('📈 السعر فوق المتوسطات — اتجاه صاعد');}
+    else if(e12<e26*0.998){score-=9;trend='down';reasons.push('📉 السعر تحت المتوسطات — اتجاه هابط');}
+    else reasons.push('↔️ السعر حول المتوسطات — اتجاه عرضي');
+    // RSI
+    const r=rsi(sp,14);
+    if(r<30){score+=10;reasons.push(`💎 RSI عند ${r.toFixed(0)} (تشبع بيعي — ارتداد محتمل)`);}
+    else if(r>70){score-=9;reasons.push(`⚠️ RSI عند ${r.toFixed(0)} (تشبع شرائي — جني أرباح محتمل)`);}
+    else if(r>=50){score+=4;reasons.push(`👍 RSI عند ${r.toFixed(0)} (منطقة قوة شرائية)`);}
+    else{score-=3;reasons.push(`👎 RSI عند ${r.toFixed(0)} (ضعف نسبي)`);}
+    // تقلب
+    const vol=stdev(sp.slice(-48))/(sp[sp.length-1]||1);
+    if(vol>0.05){score-=4;reasons.push('🌪️ تقلب عالي — مخاطرة مرتفعة');}
+    // قرب القاع/القمة
+    const mn=Math.min(...sp.slice(-72)), mx=Math.max(...sp.slice(-72));
+    const pos=(price-mn)/((mx-mn)||1);
+    if(pos<0.2){score+=7;reasons.push('🎯 السعر قرب قاع 3 أيام — فرصة دخول');}
+    else if(pos>0.85){score-=6;reasons.push('🏔️ السعر قرب قمة 3 أيام — احذر المطاردة');}
+  }
+  // 3) السيولة والقيمة السوقية
+  const mc=c.market_cap||0, vol24=c.total_volume||0;
+  const liq=mc?vol24/mc:0;
+  if(liq>0.15){score+=5;reasons.push('💧 سيولة متفجرة — اهتمام حيتان');}
+  else if(liq>0.05){score+=2;reasons.push('💧 سيولة جيدة تدعم الحركة');}
+  if(mc>2e10){score+=3;reasons.push(`🏦 قيمة سوقية ضخمة (${fmtBig(mc)}) — أمان عالي`);}
+  else if(mc<1e9){score-=3;reasons.push(`🎲 قيمة سوقية صغيرة (${fmtBig(mc)}) — مخاطرة عالية`);}
+  // 4) البيتكوين يقود
+  if(c.symbol==='btc'){score+=2;reasons.push('👑 البيتكوين يقود السوق');}
+  score=Math.max(5,Math.min(97,Math.round(score)));
+  let sig,sigAr,cls;
+  if(score>=78){sig='buy-strong';sigAr='شراء قوي 🔥';cls='s-buy-strong';}
+  else if(score>=62){sig='buy';sigAr='شراء ✅';cls='s-buy';}
+  else if(score>=45){sig='neutral';sigAr='محايد ⚖️';cls='s-neutral';}
+  else if(score>=32){sig='sell';sigAr='بيع ⚠️';cls='s-sell';}
+  else{sig='sell-strong';sigAr='بيع قوي 🔴';cls='s-sell-strong';}
+  const isBuy=sig!=='sell'&&sig!=='sell-strong';
+  const isSell=sig==='sell'||sig==='sell-strong';
+  const atrPct=Math.min(12,Math.max(2,Math.abs(ch24)*0.9+3));
+  const tp1=price*(1+(isBuy?atrPct: -atrPct*0.7)/100);
+  const tp2=price*(1+(isBuy?atrPct*1.9: -atrPct*1.4)/100);
+  const sl=price*(1+(isBuy?-atrPct*0.8:atrPct*0.8)/100);
+  // نسب الربح / الخسارة (إسقاط مبدئي — الضرب الحقيقي يحدده التتبع الحي فقط)
+  const pct=v=>price?((v-price)/price*100):0;
+  const tp1Pct=pct(tp1), tp2Pct=pct(tp2), slPct=pct(sl);
+  const profit1=isSell?-tp1Pct:tp1Pct, profit2=isSell?-tp2Pct:tp2Pct, lossPct=Math.abs(slPct);
+  const dir=isSell?'sell':'buy';
+  const opp=isBuy?Math.min(96,score+4):Math.max(4,100-score-8);
+  const risk=mc<1e9||Math.abs(ch24)>10?'عالية 🔴':mc<1e10||Math.abs(ch24)>6?'متوسطة 🟡':'منخفضة 🟢';
+  return{score,sig,sigAr,cls,dir,isBuy,isSell,atrPct,opp:Math.round(opp),tp1,tp2,sl,profit1,profit2,lossPct,risk,reasons,trend,ch1,ch24,ch7,rsiVal:sp.length>15?rsi(sp,14):null};
+}
+
+// ---------- DATA ----------
+async function loadMarket(force){
+  if(force)toast('🧠 جاري تحليل السوق والقيم السوقية...');
+  try{
+    const [m,g]=await Promise.all([
+      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=true&price_change_percentage=1h,24h,7d').then(r=>{if(!r.ok)throw 0;return r.json()}),
+      fetch('https://api.coingecko.com/api/v3/global').then(r=>r.json()).catch(()=>null)
+    ]);
+    COINS=m;
+  }catch(e){ toast('❌ فشل جلب البيانات من CoinGecko: '+e.message); throw e; }
+  COINS.forEach(c=>ANALYSIS[c.id]=analyze(c));
+  trackLive();
+  updateStats(); buildTicker(); aiSummary(); render();
+  $('liveTxt').textContent=`📡 تتبع حي • `+new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});
+}
+function updateStats(){
+  const buys=COINS.filter(c=>ANALYSIS[c.id].sig.includes('buy')).length;
+  $('stCount').textContent=COINS.length;
+  $('stBuy').textContent=buys+' إشارة';
+  const rh=Object.values(LIVE).filter(s=>s.hit1At).length;
+  if(rh>0)$('stBuy').textContent=buys+' إشارة • ✅ '+rh+' ضُرب فعلاً';
+  const mcap=COINS.reduce((s,c)=>s+(c.market_cap||0),0);
+  $('stMcap').textContent=fmtBig(mcap*8); // تقريب للإجمالي العالمي
+  $('stVol').textContent=fmtBig(COINS.reduce((s,c)=>s+(c.total_volume||0),0)*6);
+  const btc=COINS.find(c=>c.symbol==='btc');
+  $('stBtc').textContent=btc?((btc.market_cap/(mcap*8))*100).toFixed(1)+'%':'—';
+  $('stMcapChg').textContent='تحديث حي'; $('stMcapChg').style.color='var(--green)';
+}
+function buildTicker(){
+  const t=COINS.map(c=>{const up=(c.price_change_percentage_24h||0)>=0;return `<span class="tk">${c.symbol.toUpperCase()} <b>${fmt$(c.current_price)}</b> <span class="${up?'up':'down'}">${up?'▲':'▼'} ${Math.abs(c.price_change_percentage_24h||0).toFixed(1)}%</span></span>`}).join(' • ');
+  $('ticker').innerHTML=t+' • '+t;
+}
+function aiSummary(){
+  const sorted=[...COINS].sort((a,b)=>ANALYSIS[b.id].score-ANALYSIS[a.id].score);
+  const best=sorted[0], worst=sorted[sorted.length-1];
+  const ab=ANALYSIS[best.id], aw=ANALYSIS[worst.id];
+  const avg=COINS.reduce((s,c)=>s+(c.price_change_percentage_24h||0),0)/COINS.length;
+  const mood=avg>2?'سوق صاعد متفائل 🚀':avg<-2?'سوق هابط — الحذر واجب 🩸':'سوق متذبذب عرضي ⚖️';
+  $('aiSummary').innerHTML=`الحالة العامة: <b>${mood}</b> (متوسط الحركة ${avg.toFixed(1)}%).<br>💰 إجمالي القيم السوقية للعملات المحللة: <b>${fmtBig(COINS.reduce((s,c)=>s+(c.market_cap||0),0))}</b>.<br>🏆 أقوى فرصة: <b>${best.name} (${best.symbol.toUpperCase()})</b> — ${ab.sigAr} بثقة ${ab.score}% وفرصة صعود ${ab.opp}%.<br>⚠️ أضعف أداء: <b>${worst.name}</b> — ${aw.sigAr}. أنصح بتقليل المراكز فيه.`;
+}
+
+// ---------- RENDER ----------
+function sparkline(canvas,prices,up){
+  const ctx=canvas.getContext('2d');const W=canvas.width=canvas.offsetWidth*2,H=canvas.height=128;
+  ctx.clearRect(0,0,W,H);
+  if(!prices||!prices.length)return;
+  const mn=Math.min(...prices),mx=Math.max(...prices),rg=(mx-mn)||1;
+  const pts=prices.filter((_,i)=>i%2===0);
+  const X=i=>i/(pts.length-1)*W, Y=v=>H-8-((v-mn)/rg)*(H-20);
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,up?'rgba(0,230,138,.45)':'rgba(255,77,109,.45)');grad.addColorStop(1,'transparent');
+  ctx.beginPath();ctx.moveTo(0,H);pts.forEach((v,i)=>ctx.lineTo(X(i),Y(v)));ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=grad;ctx.fill();
+  ctx.beginPath();pts.forEach((v,i)=>i?ctx.lineTo(X(i),Y(v)):ctx.moveTo(X(i),Y(v)));
+  ctx.strokeStyle=up?'#00e68a':'#ff4d6d';ctx.lineWidth=3;ctx.stroke();
+}
+function cardHTML(c,top){
+  const a=ANALYSIS[c.id];const up=(c.price_change_percentage_24h||0)>=0;
+  const t=LIVE[c.id]||{entry:c.current_price,live:c.current_price,pnl:0,tp1:a.tp1,tp2:a.tp2,sl:a.sl,profit1:a.profit1,profit2:a.profit2,lossPct:a.lossPct,hit1At:'',hit2At:'',slAt:'',createdAt:'الآن',ageMin:0,status:'📡 تتبع حي — بانتظار أول تحديث',statusCls:'status-wait'};
+  const fav=FAVS.has(c.id)?'on':'';
+  return `<div class="card ${a.score>=78?'hot':''}">
+    <div class="coin-head"><img src="${c.image}" loading="lazy" alt="${c.symbol}"><div><h3>${c.name}</h3><small>${c.symbol.toUpperCase()} • رتبة #${c.market_cap_rank||'—'}</small></div>
+    <button class="fav ${fav}" onclick="fav('${c.id}')">⭐</button></div>
+    <div class="price-row"><div class="price">${fmt$(c.current_price)}</div><div class="chg ${up?'up':'down'}">${up?'▲':'▼'} ${Math.abs(c.price_change_percentage_24h||0).toFixed(2)}%</div></div>
+    <canvas class="spark" data-id="${c.id}"></canvas>
+    <div class="signal"><span class="sig-badge ${a.cls}">${a.sigAr}</span>
+      <svg class="score-circle" viewBox="0 0 60 60"><circle cx="30" cy="30" r="25" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="7"/><circle cx="30" cy="30" r="25" fill="none" stroke="${a.sig.includes('buy')?'#00e68a':a.sig.includes('sell')?'#ff4d6d':'#93a0bd'}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${a.score*1.57} 200" transform="rotate(-90 30 30)"/><text x="30" y="36" text-anchor="middle" fill="#fff" font-size="15" font-weight="900">${a.score}</text></svg>
+    </div>
+    <div style="font-size:13px;font-weight:800">🚀 فرصة الصعود: <b style="color:var(--gold)">${a.opp}%</b> • المخاطرة: ${a.risk}</div>
+    <div style="font-size:12px;font-weight:800;margin-top:4px">📍 الحي: <b>${fmt$(t.live)}</b> <b style="color:${t.pnl>=0?'var(--green)':'var(--red)'}">(${t.pnl>=0?'+':''}${t.pnl.toFixed(2)}%)</b> ${t.pnl>=0?'🟢':'🔴'} • 🕐 صدرت ${t.createdAt} (منذ ${t.ageMin} د)</div>
+    <div class="status-line ${t.statusCls}">${t.status}</div>
+    <div class="meta"><div><small>💵 الدخول (مجمّد)</small><b>${fmt$(t.entry)}</b></div><div><small>🎯 هدف 1</small><b style="color:var(--green)">${fmt$(t.tp1)}</b><br><span class="pct pct-profit">ربح +${t.profit1.toFixed(2)}%</span></div><div><small>🎯 هدف 2</small><b style="color:var(--green)">${fmt$(t.tp2)}</b><br><span class="pct pct-profit">ربح +${t.profit2.toFixed(2)}%</span></div></div>
+    <div class="hitbar"><div class="hit ${t.hit1At?'done':'wait'}">${t.hit1At?'✅ ضُرب '+t.hit1At:'⏳ الهدف 1 لم يُلمس'}</div><div class="hit ${t.hit2At?'done':'wait'}">${t.hit2At?'✅ ضُرب '+t.hit2At:'⏳ الهدف 2 لم يُلمس'}</div><div class="hit ${t.slAt?'stopped':''}">${t.slAt?'🛑 ضُرب الوقف':'وقف سليم'}</div></div>
+    <div class="meta"><div><small>🛑 وقف</small><b style="color:var(--red)">${fmt$(t.sl)}</b><br><span class="pct pct-loss">خسارة -${t.lossPct.toFixed(2)}%</span></div><div><small>القيمة السوقية</small><b>${fmtBig(c.market_cap)}</b></div><div><small>الحجم 24س</small><b>${fmtBig(c.total_volume)}</b></div></div>
+    <div class="reasons">${a.reasons.slice(0,3).map(r=>`• ${r}`).join('<br>')}</div>
+    <div class="card-actions">
+      <button class="btn btn-primary" onclick="details('${c.id}')">🧠 تحليل AI</button>
+      <button class="btn btn-ghost" onclick="shareTG('${c.id}')">✈️ تيليجرام</button>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-ghost" onclick="copySig('${c.id}')">📋 نسخ</button>
+      <button class="btn btn-ghost" onclick="exportCard('${c.id}')">🖼️ صورة</button>
+    </div>
+  </div>`;
+}
+function filtered(){
+  let arr=[...COINS];
+  const q=$('q').value.trim().toLowerCase(), fs=$('fSig').value, so=$('fSort').value;
+  if(showFavOnly||fs==='fav')arr=arr.filter(c=>FAVS.has(c.id));
+  else if(fs==='buy')arr=arr.filter(c=>ANALYSIS[c.id].sig.includes('buy'));
+  else if(fs==='sell')arr=arr.filter(c=>ANALYSIS[c.id].sig.includes('sell'));
+  if(q)arr=arr.filter(c=>c.name.toLowerCase().includes(q)||c.symbol.toLowerCase().includes(q));
+  if(so==='score')arr.sort((a,b)=>ANALYSIS[b.id].score-ANALYSIS[a.id].score);
+  if(so==='mcap')arr.sort((a,b)=>(b.market_cap||0)-(a.market_cap||0));
+  if(so==='chg')arr.sort((a,b)=>(b.price_change_percentage_24h||0)-(a.price_change_percentage_24h||0));
+  if(so==='vol')arr.sort((a,b)=>(b.total_volume||0)-(a.total_volume||0));
+  return arr;
+}
+function render(){
+  const arr=filtered();
+  $('cnt').textContent=`(${arr.length} عملة)`;
+  $('favCount').textContent=FAVS.size;
+  const top=[...COINS].sort((a,b)=>ANALYSIS[b.id].score-ANALYSIS[a.id].score).slice(0,3);
+  $('topGrid').innerHTML=top.map(c=>cardHTML(c,true)).join('');
+  $('main').innerHTML=arr.length?`<div class="grid">${arr.map(c=>cardHTML(c)).join('')}</div>`:`<div class="empty">لا توجد نتائج مطابقة 🔍</div>`;
+  document.querySelectorAll('canvas.spark').forEach(cv=>{
+    const c=COINS.find(x=>x.id===cv.dataset.id);if(!c)return;
+    sparkline(cv,c.sparkline_in_7d?.price||[],(c.price_change_percentage_24h||0)>=0);
+  });
+}
+function fav(id){FAVS.has(id)?FAVS.delete(id):FAVS.add(id);localStorage.setItem('sf_favs',JSON.stringify([...FAVS]));render();toast('⭐ تم تحديث المفضلة')}
+function toggleFavs(){showFavOnly=!showFavOnly;$('fSig').value=showFavOnly?'fav':'all';render()}
+function details(id){
+  const c=COINS.find(x=>x.id===id),a=ANALYSIS[id],t=LIVE[id]||{};
+  $('modalBody').innerHTML=`<div class="coin-head"><img src="${c.image}"><div><h2>${c.name}</h2><small>${c.symbol.toUpperCase()} • حي ${fmt$(t.live||c.current_price)} (${(t.pnl||0)>=0?'+':''}${(t.pnl||0).toFixed(2)}%)</small></div></div>
+  <div class="signal"><span class="sig-badge ${a.cls}">${a.sigAr}</span><b>الثقة ${a.score}% • فرصة الصعود ${a.opp}%</b></div>
+  <div class="status-line ${t.statusCls||'status-wait'}" style="margin-bottom:8px">${t.status||'📡 تتبع حي'}</div>
+  <div class="kv"><span>💵 الدخول (مجمّد منذ ${t.createdAt||'الآن'})</span><b>${fmt$(t.entry||c.current_price)}</b></div>
+  <div class="kv"><span>🎯 الهدف الأول (+${(t.profit1||a.profit1).toFixed(2)}% ربح) ${t.hit1At?'✅ ضُرب '+t.hit1At:'⏳ لم يُلمس بعد'}</span><b style="color:var(--green)">${fmt$(t.tp1||a.tp1)}</b></div>
+  <div class="kv"><span>🎯 الهدف الثاني (+${(t.profit2||a.profit2).toFixed(2)}% ربح) ${t.hit2At?'✅ ضُرب '+t.hit2At:'⏳ لم يُلمس بعد'}</span><b style="color:var(--green)">${fmt$(t.tp2||a.tp2)}</b></div>
+  <div class="kv"><span>🛑 وقف الخسارة (-${(t.lossPct||a.lossPct).toFixed(2)}%) ${t.slAt?'🛑 ضُرب':'✔ سليم'}</span><b style="color:var(--red)">${fmt$(t.sl||a.sl)}</b></div>
+  <div class="kv"><span>📊 RSI (14)</span><b>${a.rsiVal?a.rsiVal.toFixed(0):'—'}</b></div>
+  <div class="kv"><span>💰 القيمة السوقية</span><b>${fmtBig(c.market_cap)}</b></div>
+  <div class="kv"><span>💧 حجم 24س</span><b>${fmtBig(c.total_volume)}</b></div>
+  <div class="kv"><span>📈 تغير 1س / 24س / 7أيام</span><b>${(a.ch1||0).toFixed(1)}% / ${(a.ch24||0).toFixed(1)}% / ${(a.ch7||0).toFixed(1)}%</b></div>
+  <h3 style="margin:12px 0 6px">🧠 تعليل الذكاء الاصطناعي:</h3>
+  <div class="reasons">${a.reasons.map(r=>`• ${r}`).join('<br>')}</div>
+  <div class="card-actions"><button class="btn btn-primary" onclick="copySig('${id}')">📋 نسخ الصفقة</button><button class="btn btn-ghost" onclick="document.getElementById('modalBg').classList.remove('open')">إغلاق</button></div>`;
+  $('modalBg').classList.add('open');
+}
+function sigText(id){
+  const c=COINS.find(x=>x.id===id),a=ANALYSIS[id],t=LIVE[id]||{};
+  const e=t.entry||c.current_price, l1=t.tp1||a.tp1, l2=t.tp2||a.tp2, sl=t.sl||a.sl;
+  const p1=(t.profit1!=null?t.profit1:a.profit1), p2=(t.profit2!=null?t.profit2:a.profit2), ls=(t.lossPct!=null?t.lossPct:a.lossPct);
+  return `📊 ${c.name} (${c.symbol.toUpperCase()}) — ${a.sigAr} (ثقة ${a.score}%)\n🕐 صدرت: ${t.createdAt||'الآن'} | الدخول (مجمّد): ${fmt$(e)}\n📍 الحي: ${fmt$(t.live||c.current_price)} (${((t.pnl||0)>=0?'+':'')+(t.pnl||0).toFixed(2)}%)\n🎯1: ${fmt$(l1)} (+${p1.toFixed(2)}%) ${t.hit1At?'✅ ضُرب '+t.hit1At:'⏳ لم يُلمس بعد'}\n🎯2: ${fmt$(l2)} (+${p2.toFixed(2)}%) ${t.hit2At?'✅ ضُرب '+t.hit2At:'⏳ لم يُلمس بعد'}\n🛑: ${fmt$(sl)} (-${ls.toFixed(2)}%)\n📌 ${t.status||'تتبع حي'}`;
+}
+function copySig(id){
+  navigator.clipboard.writeText(sigText(id)).then(()=>toast('📋 تم نسخ الصفقة'));
+}
+function shareTG(id){
+  const t=encodeURIComponent(sigText(id)+'\n\nعبر منصة صفقات AI 🤖');
+  window.open('https://t.me/share/url?url='+encodeURIComponent(location.href)+'&text='+t,'_blank');
+}
+// تصدير بطاقة كصورة PNG
+function exportCard(id){
+  const c=COINS.find(x=>x.id===id),a=ANALYSIS[id],t=LIVE[id]||{};
+  const e=t.entry||c.current_price, l1=t.tp1||a.tp1, l2=t.tp2||a.tp2, sl=t.sl||a.sl;
+  const p1=(t.profit1!=null?t.profit1:a.profit1), p2=(t.profit2!=null?t.profit2:a.profit2), ls=(t.lossPct!=null?t.lossPct:a.lossPct);
+  const cv=document.createElement('canvas');cv.width=900;cv.height=680;const x=cv.getContext('2d');
+  const g=x.createLinearGradient(0,0,900,560);g.addColorStop(0,'#0d1426');g.addColorStop(1,'#182542');
+  x.fillStyle=g;x.fillRect(0,0,900,680);
+  x.fillStyle='rgba(255,255,255,.06)';x.fillRect(0,0,900,14);
+  x.fillStyle='#fff';x.font='900 44px Cairo, sans-serif';x.textAlign='right';
+  x.fillText(`${c.name} (${c.symbol.toUpperCase()})`,850,90);
+  x.font='800 40px Cairo, sans-serif';x.fillStyle='#00e68a';x.fillText(fmt$(c.current_price),850,150);
+  x.fillStyle=a.sig.includes('buy')?'#00e68a':a.sig.includes('sell')?'#ff4d6d':'#93a0bd';
+  x.font='900 52px Cairo, sans-serif';x.fillText(a.sigAr,850,230);
+  x.fillStyle='#ffbf3f';x.font='800 34px Cairo, sans-serif';
+  x.fillText(`فرصة الصعود ${a.opp}%  •  الثقة ${a.score}%`,850,290);
+  x.fillStyle='#c8d2e8';x.font='700 30px Cairo, sans-serif';
+  x.fillText(`الدخول (مجمّد) ${fmt$(e)}  •  الحي ${fmt$(t.live||c.current_price)}`,850,350);
+  x.fillStyle='#00e68a';
+  x.fillText(`هدف1 ${fmt$(l1)} (+${p1.toFixed(2)}%) ${t.hit1At?'✅ ضُرب':'⏳ حي'}`,850,400);
+  x.fillText(`هدف2 ${fmt$(l2)} (+${p2.toFixed(2)}%) ${t.hit2At?'✅ ضُرب':'⏳ حي'}`,850,450);
+  x.fillStyle='#ff4d6d';x.fillText(`وقف ${fmt$(sl)} (-${ls.toFixed(2)}%)`,850,500);
+  x.fillStyle=t.hit2At?'#00e68a':t.hit1At?'#00e68a':'#ffbf3f';x.font='800 30px Cairo, sans-serif';
+  x.fillText(t.status||'تتبع حي',850,555);
+  x.fillStyle='#93a0bd';x.font='700 24px Cairo, sans-serif';x.fillText('صفقات AI • ليست توصية استثمارية',850,620);
+  const l=document.createElement('a');l.download=`signal-${c.symbol}.png`;l.href=cv.toDataURL();l.click();toast('🖼️ تم تصدير الصفقة كصورة');
+}
+function exportTop(){const t=[...COINS].sort((a,b)=>ANALYSIS[b.id].score-ANALYSIS[a.id].score)[0];if(t)exportCard(t.id)}
+loadMarket();setInterval(()=>loadMarket(),60000);
+</script>
+</body>
+</html>
